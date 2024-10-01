@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""0. Prime Game - clinton and jude are playing a game"""
+"""0. Prime Game - maria and ben are playing a game"""
 
 
 def isWinner(x, nums):
@@ -11,8 +11,8 @@ def isWinner(x, nums):
     if x != len(nums):
         return None
 
-    jude = 0
-    clinton = 0
+    ben = 0
+    maria = 0
 
     a = [1 for x in range(sorted(nums)[-1] + 1)]
     a[0], a[1] = 0, 0
@@ -21,13 +21,13 @@ def isWinner(x, nums):
 
     for i in nums:
         if sum(a[0:i + 1]) % 2 == 0:
-            jude += 1
+            ben += 1
         else:
-            clinton += 1
-    if jude > clinton:
-        return "jude"
-    if clinton > jude:
-        return "clinton"
+            maria += 1
+    if ben > maria:
+        return "ben"
+    if maria > ben:
+        return "maria"
     return None
 
 
