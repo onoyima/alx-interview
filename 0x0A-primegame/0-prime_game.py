@@ -1,55 +1,30 @@
 #!/usr/bin/python3
-"""0. Prime Game - Maria and Ben are playing a game"""
+""" Module for solving prime game question """
 
 
 def isWinner(x, nums):
-    """Determines the winner after x rounds of the prime game"""
-    if x <= 0 or not nums:
+    """function that checks for the winner"""
+    if not nums or x < 1:
         return None
+    max_num = max(nums)
 
-
-"""# Maximum number for the sieve"""
-    max_n = max(nums)
-    
-    """ Use Sieve of Eratosthenes to precompute
-    prime numbers up to max_n"""
-    primes = [True] * (max_n + 1)
-    primes[0] = primes[1] = False
-    """0 and 1 are not prime numbers"""
-
-    for i in range(2, int(max_n**0.5) + 1):
-        if primes[i]:
-            for j in range(i*i, max_n + 1, i):
-                primes[j] = False
-
-    """ # To track the number of wins by each player"""
-    maria_wins = 0
-    ben_wins = 0
-
-    for n in nums:
-        prime_count = sum(primes[0:n+1])
-        """Count primes up to n"""
-    """# Maria wins if the count of primes is odd,
-    Ben wins if it's even"""
-        if prime_count % 2 == 1:
-            maria_wins += 1
-        else:
-            ben_wins += 1
-
-    if maria_wins > ben_wins:
+    my_filter = [True for _ in range(max(max_num + 1, 2))]
+    for i in range(2, int(pow(max_num, 0.5)) + 1):
+        if not my_filter[i]:
+            continue
+        for j in range(i * i, max_num + 1, i):
+            my_filter[j] = False
+    my_filter[0] = my_filter[1] = False
+    y = 0
+    for i in range(len(my_filter)):
+        if my_filter[i]:
+            y += 1
+        my_filter[i] = y
+    player1 = 0
+    for x in nums:
+        player1 += my_filter[x] % 2 == 1
+    if player1 * 2 == len(nums):
+        return None
+    if player1 * 2 > len(nums):
         return "Maria"
-    elif ben_wins > maria_wins:
-        return "Ben"
-    else:
-        return None
-
-
-"""# Helper function to check if a number is prime
-(no longer needed with sieve)"""
-def rm_multiples(ls, x):
-    """Removes multiples of a prime number"""
-    for i in range(2, len(ls)):
-        try:
-            ls[i * x] = 0
-        except (ValueError, IndexError):
-            break
+    return "Ben"
